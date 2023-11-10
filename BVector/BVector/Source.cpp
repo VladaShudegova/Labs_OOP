@@ -5,12 +5,6 @@ using std::cin;
 using std::cout;
 using std::endl;
 
-enum Errors_and_Exceprions
-{
-    errorLenghtLessZero = 1,
-    errorRangeIndexOutBooleanVector,
-    errorShiftLenghtLessZero,
-};
 
 int main() {
     int n;
