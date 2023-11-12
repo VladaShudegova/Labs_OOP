@@ -10,8 +10,8 @@ class BoolVector
 {
 private:
     unsigned char* m_bv;                   // БВ
-    int m_lenBv;            // Длина БВ
-    int m_memoryBv;            // Количество выделенной памяти
+    int m_lenBV;            // количесиво элементов в БВ
+    int m_memoryBV;            // Количество выделенной памяти
   
 public:
     BoolVector();                                                // Конструктор по умолчанию
@@ -24,6 +24,8 @@ public:
     void setOne(int necessaryBit, int lenght_BV = 1);               // Установить 1 в определённом бите
     void setZero(int necessaryBit, int lenght_BV = 1);              // Установить 0 в определённом бите
     void inverseComponent(int necessaryBit, int lenght_BV = 1);     // Инверсия определённого бита
+    int size() const { return m_memoryBV * 8; }
+    int weight() const;
 
     int operator[](int);                                            // Получение компоненты
 
@@ -60,9 +62,9 @@ enum Errors_and_Exceprions
 
 inline BoolVector::BoolVector()
 {
-    m_lenBv = 0;
-    m_memoryBv = 1;
-    m_bv = new unsigned char[m_memoryBv];
+    m_lenBV = 0;
+    m_memoryBV = 1;
+    m_bv = new unsigned char[m_memoryBV];
 }
 
 inline BoolVector::~BoolVector()
@@ -76,7 +78,7 @@ inline void BoolVector::setOne(int necessaryBit, int lenght_BV)
 {
     for (; lenght_BV > 0; necessaryBit++, lenght_BV--)
     {
-        if (lenght_BV >= m_lenBv || lenght_BV < 0)
+        if (lenght_BV >= m_lenBV || lenght_BV < 0)
         {
             throw errorRangeIndexOutBooleanVector;
         }
@@ -84,7 +86,7 @@ inline void BoolVector::setOne(int necessaryBit, int lenght_BV)
         int indexBit;
         int positionBit;
         unsigned char mask = 1;
-        indexBit = m_memoryBv - necessaryBit / 8 - 1;
+        indexBit = m_memoryBV - necessaryBit / 8 - 1;
         positionBit = necessaryBit % 8;
         m_bv[indexBit] |= (mask << positionBit);
     }
@@ -94,7 +96,7 @@ inline void BoolVector::setZero(int necessaryBit, int lenght_BV)
 {
     for (; lenght_BV > 0; necessaryBit++, lenght_BV--)
     {
-        if (necessaryBit >= m_lenBv || necessaryBit < 0)
+        if (necessaryBit >= m_lenBV || necessaryBit < 0)
         {
             throw errorRangeIndexOutBooleanVector;
         }
@@ -102,7 +104,7 @@ inline void BoolVector::setZero(int necessaryBit, int lenght_BV)
         int indexBit;
         int positionBit;
         unsigned char mask = 1;
-        indexBit = m_memoryBv - necessaryBit / 8 - 1;
+        indexBit = m_memoryBV - necessaryBit / 8 - 1;
         positionBit = necessaryBit % 8;
         m_bv[indexBit] &= ~(mask << positionBit);
     }
@@ -112,7 +114,7 @@ inline void BoolVector::inverseComponent(int necessaryBit, int lenght_BV)
 {
     for (; lenght_BV > 0; necessaryBit++, lenght_BV--)
     {
-        if (necessaryBit < 0 || necessaryBit >= m_lenBv)
+        if (necessaryBit < 0 || necessaryBit >= m_lenBV)
         {
             throw errorRangeIndexOutBooleanVector;
         }
@@ -132,7 +134,7 @@ inline void BoolVector::inverseComponent(int necessaryBit, int lenght_BV)
 
 inline int BoolVector::operator[] (int necessaryBit)
 {
-    if (necessaryBit >= m_lenBv || necessaryBit < 0)
+    if (necessaryBit >= m_lenBV || necessaryBit < 0)
     {
         throw errorRangeIndexOutBooleanVector;
     }
@@ -140,7 +142,7 @@ inline int BoolVector::operator[] (int necessaryBit)
     int indexBit;
     int positionBit;
     unsigned char mask = 1;
-    indexBit = m_memoryBv - necessaryBit / 8 - 1;
+    indexBit = m_memoryBV - necessaryBit / 8 - 1;
     positionBit = necessaryBit % 8;
 
     if (m_bv[indexBit] & (mask << positionBit))
@@ -150,6 +152,8 @@ inline int BoolVector::operator[] (int necessaryBit)
 
     return 0;
 }
+
+
 
 
 inline BoolVector& BoolVector::operator |= (BoolVector& lenght_BV)
