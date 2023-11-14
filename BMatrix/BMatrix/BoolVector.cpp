@@ -188,7 +188,7 @@ BoolVector BoolVector:: operator>> (const int shiftBit) const
 }
 
 
-BoolVector BoolVector:: operator | ( BoolVector& lenght_BV) 
+BoolVector BoolVector:: operator | (BoolVector& lenght_BV)
 {
     BoolVector* min;
     BoolVector* max;
@@ -219,7 +219,7 @@ BoolVector BoolVector:: operator | ( BoolVector& lenght_BV)
 }
 
 
-BoolVector BoolVector:: operator & (  BoolVector& lenght_BV) 
+BoolVector BoolVector:: operator & (BoolVector& lenght_BV)
 {
     BoolVector* min;
     BoolVector* max;
@@ -271,9 +271,9 @@ BoolVector BoolVector::operator ~() const
 
     m_bv[m_memoryBV - nmem] = m_bv[m_memoryBV - nmem] & (~mask);
 
-    
 
-    return * this;
+
+    return *this;
 }
 
 BoolVector BoolVector:: operator ^ (const BoolVector& lenght_BV) const
@@ -306,7 +306,7 @@ BoolVector BoolVector:: operator ^ (const BoolVector& lenght_BV) const
 
 
 
-ostream& operator << (ostream& os, BoolVector& lenght_BV) 
+ostream& operator << (ostream& os, BoolVector& lenght_BV)
 {
     for (int i = lenght_BV.m_lenBV - 1; i >= 0; i--)
     {
@@ -438,8 +438,6 @@ void BoolVector::inverseComponent(int necessaryBit, int lenght_BV)
     }
 }
 
-
-
 int BoolVector::weight() const
 {
     int weight = 0;
@@ -453,4 +451,3 @@ int BoolVector::weight() const
     }
     return weight;
 }
-
