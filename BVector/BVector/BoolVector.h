@@ -24,7 +24,7 @@ public:
     void setOne(int necessaryBit, int lenght_BV = 1);               // Установить 1 в определённом бите
     void setZero(int necessaryBit, int lenght_BV = 1);              // Установить 0 в определённом бите
     void inverseComponent(int necessaryBit, int lenght_BV = 1);     // Инверсия определённого бита
-    int size() const { return m_memoryBV * 8; }
+    int size() const { return m_lenBV; }
     int weight() const;
 
     int operator[](const int) const;                                            // Получение компоненты
@@ -81,18 +81,10 @@ inline int BoolVector::operator[] (int necessaryBit) const
         throw errorRangeIndexOutBooleanVector;
     }
 
-    int indexBit;
-    int positionBit;
-    unsigned char mask = 1;
-    indexBit = m_memoryBV - necessaryBit / 8 - 1;
-    positionBit = necessaryBit % 8;
 
-    if (m_bv[indexBit] & (mask << positionBit))
-    {
-        return 1;
-    }
-
-    return 0;
+    int index_vector = m_memoryBV - 1 - necessaryBit / 8;
+    char mask = 1 << (necessaryBit % 8);
+    return ((m_bv[index_vector] & mask) >> (necessaryBit % 8)) & 1;
 }
 
 

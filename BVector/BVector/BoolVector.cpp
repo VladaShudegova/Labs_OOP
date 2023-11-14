@@ -438,3 +438,19 @@ void BoolVector::inverseComponent(int necessaryBit, int lenght_BV)
     }
 }
 
+
+
+int BoolVector::weight() const
+{
+    int weight = 0;
+
+    for (int i = 0; i < m_lenBV; ++i)
+    {
+        if ((int)operator[](i))
+        {
+            weight++;
+        }
+    }
+    return weight;
+}
+

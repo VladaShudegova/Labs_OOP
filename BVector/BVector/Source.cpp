@@ -17,6 +17,18 @@ int main() {
     t3 = t1;
     t4 = t2;
   
+    BoolVector t5;
+    cin >> t5;
+
+    cout << "Element [0]: " << t5[0] << endl;
+    cout << "Element [1]: " << t5[1] << endl;
+    cout << "Element [2]: " << t5[2] << endl;
+    cout << "Element [3]: " << t5[3] << endl;
+    cout << "Element [4]: " << t5[4] << endl;
+
+    cout << "Weight of vector: " << t5.weight() << endl;
+    cout << "Weight of vector: " << t1.weight() << endl;
+    cout << "Weight of vector: " << t2.weight() << endl;
 
     try
     {
