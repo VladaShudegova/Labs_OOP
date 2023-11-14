@@ -27,25 +27,25 @@ public:
     int size() const { return m_memoryBV * 8; }
     int weight() const;
 
-    int operator[](int);                                            // Получение компоненты
+    int operator[](const int) const;                                            // Получение компоненты
 
-    BoolVector& operator<<=(int);                                // Побитовый сдвиг влево (с присвоением)
-    BoolVector operator<<(int);                                  // Побитовый сдвиг влево
-    BoolVector& operator>>=(int);                                // Побитовый сдвиг вправо (с присвоением)
-    BoolVector operator>>(int);                                  // Побитовый сдвиг вправо 
+    BoolVector& operator<<=(const int shiftNumber);                                // Побитовый сдвиг влево (с присвоением)
+    BoolVector operator<<(const int shiftNumber) const;                                  // Побитовый сдвиг влево
+    BoolVector& operator>>=(const int shiftNumber);                                // Побитовый сдвиг вправо (с присвоением)
+    BoolVector operator>>(const int shiftNumber) const;                                  // Побитовый сдвиг вправо 
 
-    BoolVector operator| (BoolVector&);                       // Побитовое ИЛИ
-    BoolVector& operator|= (BoolVector&);                     // побитовое ИЛИ (с присвоением) 
-    BoolVector operator& (BoolVector&);                       // Побитовое И
-    BoolVector& operator&= (BoolVector&);                     // Побитовое И (с присвоением) 
-    BoolVector operator ^(BoolVector&);                       // Побитовове исключающее ИЛИ
-    BoolVector& operator ^=(BoolVector&);                     // Побитовове исключающее ИЛИ (с присвоением)
+    BoolVector operator| (BoolVector& other) ;                       // Побитовое ИЛИ
+    BoolVector& operator|= ( BoolVector& other);                     // побитовое ИЛИ (с присвоением) 
+    BoolVector operator& ( BoolVector& other) ;                       // Побитовое И
+    BoolVector& operator&= ( BoolVector& other);                     // Побитовое И (с присвоением) 
+    BoolVector operator ^(const BoolVector& other) const;                       // Побитовове исключающее ИЛИ
+    BoolVector& operator ^=( BoolVector& other);                     // Побитовове исключающее ИЛИ (с присвоением)
 
 
     BoolVector operator=(const BoolVector& other);
     
 
-    BoolVector& operator~ ();                                    // Побитовое НЕ
+    BoolVector operator~ () const;                                    // Побитовое НЕ
 
     friend ostream& operator << (ostream&, BoolVector&);         // Потоковый ввод
     friend istream& operator >> (istream&, BoolVector&);         // Потоковый ввывод
@@ -74,65 +74,7 @@ inline BoolVector::~BoolVector()
 }
 
 
-inline void BoolVector::setOne(int necessaryBit, int lenght_BV)
-{
-    for (; lenght_BV > 0; necessaryBit++, lenght_BV--)
-    {
-        if (lenght_BV >= m_lenBV || lenght_BV < 0)
-        {
-            throw errorRangeIndexOutBooleanVector;
-        }
-
-        int indexBit;
-        int positionBit;
-        unsigned char mask = 1;
-        indexBit = m_memoryBV - necessaryBit / 8 - 1;
-        positionBit = necessaryBit % 8;
-        m_bv[indexBit] |= (mask << positionBit);
-    }
-}
-
-inline void BoolVector::setZero(int necessaryBit, int lenght_BV)
-{
-    for (; lenght_BV > 0; necessaryBit++, lenght_BV--)
-    {
-        if (necessaryBit >= m_lenBV || necessaryBit < 0)
-        {
-            throw errorRangeIndexOutBooleanVector;
-        }
-
-        int indexBit;
-        int positionBit;
-        unsigned char mask = 1;
-        indexBit = m_memoryBV - necessaryBit / 8 - 1;
-        positionBit = necessaryBit % 8;
-        m_bv[indexBit] &= ~(mask << positionBit);
-    }
-}
-
-inline void BoolVector::inverseComponent(int necessaryBit, int lenght_BV)
-{
-    for (; lenght_BV > 0; necessaryBit++, lenght_BV--)
-    {
-        if (necessaryBit < 0 || necessaryBit >= m_lenBV)
-        {
-            throw errorRangeIndexOutBooleanVector;
-        }
-
-        if (operator[](necessaryBit) == 0)
-        {
-            setOne(necessaryBit);
-        }
-
-        else
-        {
-            setZero(necessaryBit);
-        }
-    }
-}
-
-
-inline int BoolVector::operator[] (int necessaryBit)
+inline int BoolVector::operator[] (int necessaryBit) const
 {
     if (necessaryBit >= m_lenBV || necessaryBit < 0)
     {
@@ -171,7 +113,7 @@ inline BoolVector& BoolVector::operator &= (BoolVector& lenght_BV)
     return *this;
 }
 
-inline BoolVector& BoolVector::operator ^= (BoolVector& lenght_BV)
+inline BoolVector& BoolVector::operator ^= ( BoolVector& lenght_BV) 
 {
     (*this) = ((*this) ^ lenght_BV);
 

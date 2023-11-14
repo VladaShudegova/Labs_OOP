@@ -111,7 +111,7 @@ BoolVector::BoolVector(const BoolVector& bv)
 
 
 
-BoolVector& BoolVector:: operator<<=(int shiftBit)
+BoolVector& BoolVector:: operator<<=(const int shiftBit)
 {
     if (shiftBit < 0)
     {
@@ -141,7 +141,7 @@ BoolVector& BoolVector:: operator<<=(int shiftBit)
     return *this;
 }
 
-BoolVector BoolVector:: operator<< (int shiftBit)
+BoolVector BoolVector:: operator<< (const int shiftBit) const
 {
     BoolVector result(*this);
     result <<= shiftBit;
@@ -149,7 +149,7 @@ BoolVector BoolVector:: operator<< (int shiftBit)
     return result;
 }
 
-BoolVector& BoolVector:: operator>>=(int shiftBit)
+BoolVector& BoolVector:: operator>>=(const int shiftBit)
 {
     if (shiftBit < 0)
     {
@@ -179,7 +179,7 @@ BoolVector& BoolVector:: operator>>=(int shiftBit)
     return *this;
 }
 
-BoolVector BoolVector:: operator>> (int shiftBit)
+BoolVector BoolVector:: operator>> (const int shiftBit) const
 {
     BoolVector result(*this);
     result >>= shiftBit;
@@ -188,7 +188,7 @@ BoolVector BoolVector:: operator>> (int shiftBit)
 }
 
 
-BoolVector BoolVector:: operator | (BoolVector& lenght_BV)
+BoolVector BoolVector:: operator | ( BoolVector& lenght_BV) 
 {
     BoolVector* min;
     BoolVector* max;
@@ -219,7 +219,7 @@ BoolVector BoolVector:: operator | (BoolVector& lenght_BV)
 }
 
 
-BoolVector BoolVector:: operator & (BoolVector& lenght_BV)
+BoolVector BoolVector:: operator & (  BoolVector& lenght_BV) 
 {
     BoolVector* min;
     BoolVector* max;
@@ -256,7 +256,7 @@ BoolVector BoolVector:: operator & (BoolVector& lenght_BV)
 
 
 
-BoolVector& BoolVector::operator ~()
+BoolVector BoolVector::operator ~() const
 {
     int nmem = (m_lenBV + 7) / 8;
 
@@ -265,13 +265,18 @@ BoolVector& BoolVector::operator ~()
         m_bv[i] = ~m_bv[i];
     }
 
-    unsigned char mask = (~0) << ((m_lenBV - 1) % 8 + 1);
+    unsigned char mask = 0;
+    mask = ~mask;
+    mask <<= (m_lenBV - 1) % 8 + 1;
+
     m_bv[m_memoryBV - nmem] = m_bv[m_memoryBV - nmem] & (~mask);
 
-    return *this;
+    
+
+    return * this;
 }
 
-BoolVector BoolVector:: operator ^ (BoolVector& lenght_BV)
+BoolVector BoolVector:: operator ^ (const BoolVector& lenght_BV) const
 {
     if (m_memoryBV > lenght_BV.m_memoryBV)
     {
@@ -301,7 +306,7 @@ BoolVector BoolVector:: operator ^ (BoolVector& lenght_BV)
 
 
 
-ostream& operator << (ostream& os, BoolVector& lenght_BV)
+ostream& operator << (ostream& os, BoolVector& lenght_BV) 
 {
     for (int i = lenght_BV.m_lenBV - 1; i >= 0; i--)
     {
@@ -373,5 +378,63 @@ BoolVector BoolVector::operator=(const BoolVector& other)
         m_bv[i] = other.m_bv[i];
     }
     return *this;
+}
+
+
+void BoolVector::setOne(int necessaryBit, int lenght_BV)
+{
+    for (; lenght_BV > 0; necessaryBit++, lenght_BV--)
+    {
+        if (lenght_BV >= m_lenBV || lenght_BV < 0)
+        {
+            throw errorRangeIndexOutBooleanVector;
+        }
+
+        int indexBit;
+        int positionBit;
+        unsigned char mask = 1;
+        indexBit = m_memoryBV - necessaryBit / 8 - 1;
+        positionBit = necessaryBit % 8;
+        m_bv[indexBit] |= (mask << positionBit);
+    }
+}
+
+void BoolVector::setZero(int necessaryBit, int lenght_BV)
+{
+    for (; lenght_BV > 0; necessaryBit++, lenght_BV--)
+    {
+        if (necessaryBit >= m_lenBV || necessaryBit < 0)
+        {
+            throw errorRangeIndexOutBooleanVector;
+        }
+
+        int indexBit;
+        int positionBit;
+        unsigned char mask = 1;
+        indexBit = m_memoryBV - necessaryBit / 8 - 1;
+        positionBit = necessaryBit % 8;
+        m_bv[indexBit] &= ~(mask << positionBit);
+    }
+}
+
+void BoolVector::inverseComponent(int necessaryBit, int lenght_BV)
+{
+    for (; lenght_BV > 0; necessaryBit++, lenght_BV--)
+    {
+        if (necessaryBit < 0 || necessaryBit >= m_lenBV)
+        {
+            throw errorRangeIndexOutBooleanVector;
+        }
+
+        if (operator[](necessaryBit) == 0)
+        {
+            setOne(necessaryBit);
+        }
+
+        else
+        {
+            setZero(necessaryBit);
+        }
+    }
 }
 

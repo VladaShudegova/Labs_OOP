@@ -16,8 +16,7 @@ int main() {
     BoolVector t4;
     t3 = t1;
     t4 = t2;
-    cout << t3.weight() << endl;
-    cout << t4.weight() << endl;
+  
 
     try
     {
@@ -215,7 +214,9 @@ int main() {
             }
             case 12:
             {
-                cout << ~lab_BV_1;
+                BoolVector check;
+                check = ~lab_BV_1;
+                cout << check;
 
                 cout << endl;
                 break;
