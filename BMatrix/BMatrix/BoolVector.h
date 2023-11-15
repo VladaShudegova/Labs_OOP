@@ -34,12 +34,12 @@ public:
     BoolVector& operator>>=(const int shiftNumber);                               
     BoolVector operator>>(const int shiftNumber) const;                                 
 
-    BoolVector operator| (BoolVector& other) ;                       
-    BoolVector& operator|= ( BoolVector& other);                    
-    BoolVector operator& ( BoolVector& other) ;                      
-    BoolVector& operator&= ( BoolVector& other);                     
+    BoolVector operator| (const BoolVector& other) const;                       
+    BoolVector& operator|= ( const BoolVector& other);                    
+    BoolVector operator& (const BoolVector& other) const;
+    BoolVector& operator&= (const BoolVector& other);                     
     BoolVector operator ^(const BoolVector& other) const;                      
-    BoolVector& operator ^=( BoolVector& other);                     
+    BoolVector& operator ^=(const BoolVector& other);                     
 
 
     BoolVector operator=(const BoolVector& other);
@@ -97,7 +97,7 @@ inline int BoolVector::operator[] (int necessaryBit) const
 
 
 
-inline BoolVector& BoolVector::operator |= (BoolVector& lenght_BV)
+inline BoolVector& BoolVector::operator |= (const BoolVector& lenght_BV)
 {
     (*this) = ((*this) | lenght_BV);
 
@@ -105,14 +105,14 @@ inline BoolVector& BoolVector::operator |= (BoolVector& lenght_BV)
 }
 
 
-inline BoolVector& BoolVector::operator &= (BoolVector& lenght_BV)
+inline BoolVector& BoolVector::operator &= (const BoolVector& lenght_BV)
 {
     (*this) = ((*this) & lenght_BV);
 
     return *this;
 }
 
-inline BoolVector& BoolVector::operator ^= ( BoolVector& lenght_BV) 
+inline BoolVector& BoolVector::operator ^= (const BoolVector& lenght_BV) 
 {
     (*this) = ((*this) ^ lenght_BV);
 

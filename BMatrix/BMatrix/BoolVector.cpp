@@ -27,12 +27,12 @@ BoolVector::BoolVector(int lenght_BV, int fillingMethod)
     {
         for (int i = 0; i < m_memoryBV - 1; i++)
         {
-            m_bv[i + 1] = pow(2, 8) - 1;
+            m_bv[i + 1] = (1 << 8) - 1;
         }
 
         if (m_lenBV % 8 == 0)
         {
-            m_bv[0] = pow(2, 8) - 1;
+            m_bv[0] = (1<<8) - 1;
         }
 
         else
@@ -188,10 +188,10 @@ BoolVector BoolVector:: operator>> (const int shiftBit) const
 }
 
 
-BoolVector BoolVector:: operator | (BoolVector& lenght_BV)
+BoolVector BoolVector:: operator | (const BoolVector& lenght_BV) const
 {
-    BoolVector* min;
-    BoolVector* max;
+    const BoolVector* min;
+    const BoolVector* max;
 
     int i;
     int k;
@@ -219,10 +219,10 @@ BoolVector BoolVector:: operator | (BoolVector& lenght_BV)
 }
 
 
-BoolVector BoolVector:: operator & (BoolVector& lenght_BV)
+BoolVector BoolVector:: operator & (const BoolVector& lenght_BV) const
 {
-    BoolVector* min;
-    BoolVector* max;
+    const BoolVector* min;
+    const BoolVector* max;
 
     int i;
     int k;

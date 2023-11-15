@@ -190,7 +190,7 @@ BoolMatrix BoolMatrix:: operator & (const BoolMatrix& other) const
     }
 
     int i;
-    int k;
+    
 
     if (m_Row_BM > other.m_Row_BM)
     {
@@ -239,7 +239,7 @@ BoolMatrix BoolMatrix:: operator | (const BoolMatrix& other) const
     }
 
     int i;
-    int k;
+    
 
     if (m_Row_BM > other.m_Row_BM)
     {
@@ -261,10 +261,6 @@ BoolMatrix BoolMatrix:: operator | (const BoolMatrix& other) const
         result.m_BM[i] |= min->m_BM[i];
     }
 
-    for (i = min->m_Row_BM; i < max->m_Row_BM; i++)
-    {
-        result.m_BM[i] |= saveMax;
-    }
 
     return result;
 }
